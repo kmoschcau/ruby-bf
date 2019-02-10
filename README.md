@@ -4,7 +4,7 @@
 
 ## run
 
-./bin/bf examples/hello-world.bf
+`./bin/bf examples/hello-world.bf`
 
 ## References and help
 
