@@ -12,8 +12,16 @@ class BfInterpreter
     '-' => -> { @registers[@pointer] -= 1 },
     '.' => -> { print @registers[@pointer].chr },
     ',' => -> { @registers[@pointer] = STDIN.getch.ord || 0 },
-    '[' => -> { @loop_marker = @code_index },
-    ']' => -> { @code_index = @loop_marker if @registers[@pointer].positive? }
+    '[' => -> { @loop_markers.unshift @code_index },
+    ']' => lambda do
+             return if @loop_markers.empty?
+
+             if @registers[@pointer].zero?
+               @loop_markers.shift
+             else
+               @code_index = @loop_markers[0]
+             end
+           end
   }.freeze
 
   def initialize
@@ -21,15 +29,16 @@ class BfInterpreter
   end
 
   def reset
-    @registers   = [0]
-    @pointer     = 0
-    @loop_marker = 0
-    @code_index  = 0
+    @registers    = [0]
+    @pointer      = 0
+    @loop_markers = []
+    @code_index   = 0
   end
 
   def run(code)
     @code_index = 0
     while @code_index < code.size
+      puts "#{@code_index}: #{code[@code_index]}"
       instance_exec(&COMMANDS[code[@code_index]])
       @code_index += 1
     end
