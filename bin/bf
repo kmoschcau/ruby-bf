@@ -14,7 +14,11 @@ end
 
 ARGV.each do |file_name|
   unless File.exist? file_name
-    puts "File does not exist: #{file_name}"
+    puts "Path does not exist: #{file_name}"
+    exit false
+  end
+  unless File.file? file_name
+    puts "Path is not a file: #{file_name}"
     exit false
   end
   unless File.readable? file_name
