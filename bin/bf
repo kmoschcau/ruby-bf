@@ -6,8 +6,8 @@ require_relative '../lib/bf_interpreter'
 if ARGV.empty?
   puts <<~HELP_TEXT
     Usage:
-      bf
-      bf [code file]
+      bf                   - Show usage
+      bf [code file [...]] - Run the passed code file(s)
   HELP_TEXT
   exit
 end
